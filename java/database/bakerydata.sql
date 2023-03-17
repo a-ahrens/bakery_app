@@ -40,9 +40,9 @@ VALUES (12, 'Sheet', 2, 1, 'Chocolate', 'Standard', 'Butter Cream', 'Frosting', 
 
 --Add custom cakes to products table
 INSERT INTO products(product_type, product_name, description, price, image_url, keywords, custom_cake_id)
-VALUES('cake', 'Vanilla Strawberry Cake', 'A vanilla cake with strawberry filling and cream cheese icing', 22.00, 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Vanilla-Bean-Cake-with-White-Chocolate-Ganache_exps129488_HC2379809B04_03_5b_RMS-8.jpg', 'cake, vanilla, cream cheese, strawberry', 1);
+VALUES('cake', 'Vanilla Strawberry Cake', 'A vanilla cake with strawberry filling and cream cheese icing', 22.00, 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Vanilla-Bean-Cake-with-White-Chocolate-Ganache_exps129488_HC2379809B04_03_5b_RMS-8.jpg', 'cake, vanilla, cream cheese, strawberry', NULL);
 INSERT INTO products(product_type, product_name, description, price, image_url, keywords, custom_cake_id)
-VALUES('cake', 'Chocolate Cake', 'A chocolate cake with butter cream filling and chocolate icing', 22.00, 'https://completecomfortfoods.com/wp-content/uploads/2022/06/Hersheys-Chocolate-Cake-with-Cream-Cheese-Filling-and-Chocolate-Cream-Cheese-Buttercream2A.jpg', 'cake, cream cheese, chocolate', 2);
+VALUES('cake', 'Chocolate Cake', 'A chocolate cake with butter cream filling and chocolate icing', 22.00, 'https://completecomfortfoods.com/wp-content/uploads/2022/06/Hersheys-Chocolate-Cake-with-Cream-Cheese-Filling-and-Chocolate-Cream-Cheese-Buttercream2A.jpg', 'cake, cream cheese, chocolate', NULL);
 
 
 
