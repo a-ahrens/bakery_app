@@ -41,6 +41,20 @@ public class JdbcProductDao implements ProductDao {
         return product;
     }
 
+    public List<Product> getProductsByType(String productType){
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE product_type = ?;";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, productType);
+        while (rs.next()){
+            products.add(mapRowToProduct(rs));
+        }
+
+        return products;
+    }
+
+
+
     private Product mapRowToProduct(SqlRowSet rs){
         Product product = new Product();
         product.setId(rs.getInt("product_id"));

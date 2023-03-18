@@ -19,15 +19,23 @@ public class ProductController {
     }
 
     //all products
-    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    @RequestMapping(value = "/products/all", method = RequestMethod.GET)
     public List<Product> getAllProducts(){
         return productDao.getAllProducts();
     }
 
     //product by id
+    //Example: http://localhost:9000/products/1
     @RequestMapping(value = "/products/{productId}", method = RequestMethod.GET)
     public Product getProductById(@PathVariable int productId){
         return productDao.getProductById(productId);
+    }
+
+    //products by type
+    //Example: http://localhost:9000/products?productType=cupcake
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public List<Product> getProductsByType(@RequestParam String productType){
+        return productDao.getProductsByType(productType);
     }
 
 
