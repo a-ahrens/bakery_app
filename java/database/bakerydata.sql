@@ -1,3 +1,22 @@
+--users
+INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username, password_hash, role) VALUES ('Karen', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'ROLE_USER');
+
+--customers
+INSERT INTO customer (customer_name, customer_phone, customer_email, user_id)
+VALUES ('User Smith', 1234567890, 'User@email.com', 1);
+INSERT INTO customer (customer_name, customer_phone, customer_email, user_id)
+VALUES ('Admin Smith', 1234567890, 'Admin@email.com', 2);
+INSERT INTO customer (customer_name, customer_phone, customer_email, user_id)
+VALUES ('Karen Smith', 1234567890, 'LetMeSpeakToTheManager@email.com', 3);
+
+--shopping_cart
+INSERT INTO shopping_cart (customer_id) VALUES (1);
+INSERT INTO shopping_cart (customer_id) VALUES (2);
+INSERT INTO shopping_cart (customer_id) VALUES (3);
+
+
 --products table data
 INSERT INTO products(product_type, product_name, description, price, image_url, keywords)
 VALUES('cupcake', 'total chocolate cupcake', 'chocolate cupcake with chocolate icing and chocolate chips', 2.25, 'https://www.twopeasandtheirpod.com/wp-content/uploads/2015/03/Ultimate-Chocolate-Cupcakes-2.jpg', 'chocolate, cupcake, chocolate chip, icing, modern');
@@ -40,12 +59,14 @@ VALUES (12, 'Sheet', 2, 1, 'Chocolate', 'Standard', 'Butter Cream', 'Frosting', 
 
 --Add custom cakes to products table
 INSERT INTO products(product_type, product_name, description, price, image_url, keywords, custom_cake_id)
-VALUES('cake', 'Vanilla Strawberry Cake', 'A vanilla cake with strawberry filling and cream cheese icing', 22.00, 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Vanilla-Bean-Cake-with-White-Chocolate-Ganache_exps129488_HC2379809B04_03_5b_RMS-8.jpg', 'cake, vanilla, cream cheese, strawberry', NULL);
+VALUES('cake', 'Vanilla Strawberry Cake', 'A vanilla cake with strawberry filling and cream cheese icing', 22.00, 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Vanilla-Bean-Cake-with-White-Chocolate-Ganache_exps129488_HC2379809B04_03_5b_RMS-8.jpg', 'cake, vanilla, cream cheese, strawberry', 1);
 INSERT INTO products(product_type, product_name, description, price, image_url, keywords, custom_cake_id)
-VALUES('cake', 'Chocolate Cake', 'A chocolate cake with butter cream filling and chocolate icing', 22.00, 'https://completecomfortfoods.com/wp-content/uploads/2022/06/Hersheys-Chocolate-Cake-with-Cream-Cheese-Filling-and-Chocolate-Cream-Cheese-Buttercream2A.jpg', 'cake, cream cheese, chocolate', NULL);
+VALUES('cake', 'Chocolate Cake', 'A chocolate cake with butter cream filling and chocolate icing', 22.00, 'https://completecomfortfoods.com/wp-content/uploads/2022/06/Hersheys-Chocolate-Cake-with-Cream-Cheese-Filling-and-Chocolate-Cream-Cheese-Buttercream2A.jpg', 'cake, cream cheese, chocolate', 2);
 
 
-
+--Add Discount code
+INSERT INTO discount (discount_code, discount_percent, start_date, end_date, description)
+VALUES('FOOBERRIES', 0.90, '2023/03/01', '2023/04/01', 'Sale on all Foo Berry products');
 
 
 
