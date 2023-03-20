@@ -86,7 +86,7 @@ CREATE TABLE cart_items(
 	product_id INT NOT NULL,
 	quantity INT DEFAULT 1,
 	price DECIMAL(8,2) NOT NULL,
-	CONSTRAINT PK_cart_line_item PRIMARY KEY (line_item),
+	CONSTRAINT PK_cart_item PRIMARY KEY (cart_id, product_id);
 	CONSTRAINT FK_cart_id FOREIGN KEY (cart_id) REFERENCES shopping_cart(cart_id),
 	CONSTRAINT FK_cart_product_id FOREIGN KEY (product_id) REFERENCES products(product_id)
 );

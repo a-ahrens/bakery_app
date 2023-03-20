@@ -68,6 +68,10 @@ VALUES('cake', 'Chocolate Cake', 'A chocolate cake with butter cream filling and
 INSERT INTO discount (discount_code, discount_percent, start_date, end_date, description)
 VALUES('FOOBERRIES', 0.90, '2023/03/01', '2023/04/01', 'Sale on all Foo Berry products');
 
-
+--Add items to Karen Smith's cart
+INSERT INTO cart_items (cart_id, product_id, quantity, price)
+VALUES (3,2,4,2.25);
+INSERT INTO cart_items (cart_id, product_id, quantity, price)
+VALUES (3,4,1,3.50);
 
 
