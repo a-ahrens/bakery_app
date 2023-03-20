@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import BakeryStore from '../views/BakeryStore.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
@@ -21,6 +22,14 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/store',
+      name: 'bakery_store',
+      component: BakeryStore,
+      meta: {
+        requiresAuth: false
+      }
+    },
     {
       path: '/',
       name: 'home',
