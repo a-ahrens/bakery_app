@@ -1,20 +1,18 @@
 package com.techelevator.model.cart;
 
-public class CartItem {
+public class CartItemDTO {
 
-    private int lineItem;
     private int cartId;
     private int productId;
     private int quantity;
-    private double price;
 
-    public int getLineItem() {
-        return lineItem;
+    public CartItemDTO(int cartId, int productId, int quantity) {
+        this.cartId = cartId;
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
-    public void setLineItem(int lineItem) {
-        this.lineItem = lineItem;
-    }
+    public CartItemDTO(){};
 
     public int getCartId() {
         return cartId;
@@ -38,13 +36,5 @@ public class CartItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }

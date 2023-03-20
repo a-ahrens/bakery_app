@@ -1,6 +1,5 @@
 package com.techelevator.model.cart;
 
-
 import java.sql.Timestamp;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;

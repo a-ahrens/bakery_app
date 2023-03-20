@@ -1,10 +1,9 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.ShoppingCart.CartDao;
-import com.techelevator.model.cart.CartItem;
+import com.techelevator.model.cart.CartItemDTO;
+import com.techelevator.model.cart.CartItemDetail;
 import com.techelevator.model.cart.ShoppingCart;
-import com.techelevator.model.products.Product;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,15 +22,45 @@ public class CartController {
 
     //update cart from guest to user account
 
+
     //add item to cart
-    @RequestMapping (value = "/cart/add", method = RequestMethod.POST)
-    public CartItem addItemToCart(@RequestBody CartItem cartItem){
-        //TODO rewrite cart dao pattern for add items to cart. Needs to accept a CartItem object
-        return null;
+        /*Example:
+            {
+                "cartId" : 3,
+                "productId" : 3,
+                "quantity" : 2
+            }
+         */
+    @RequestMapping (value = "/cart", method = RequestMethod.POST)
+    public boolean addItemToCart(@RequestBody CartItemDTO cartItem){
+        return cartDao.addItemToCart(cartItem);
     }
 
     //remove item from cart
+        /*Example:
+            {
+                "cartId" : 3,
+                "productId" : 3,
+                "quantity" : 2
+            }
+        */
+    @RequestMapping (value = "/cart", method = RequestMethod.DELETE)
+    public boolean removeItemFromCart(@RequestBody CartItemDTO cartItem){
+        return cartDao.removeItemFromCart(cartItem);
+    }
 
+    //update item quantity in cart
+        /*Example:
+            {
+                "cartId" : 3,
+                "productId" : 3,
+                "quantity" : 2
+            }
+         */
+    @RequestMapping (value = "/cart", method = RequestMethod.PUT)
+    public boolean updateItemQuantityInCart(@RequestBody CartItemDTO cartItem){
+        return cartDao.updateItemQuantity(cartItem);
+    }
 
     //get list of cart items
         //postman example: createdDate is not needed here. Leave null for now
@@ -41,13 +70,22 @@ public class CartController {
         //             "createdDate" : null
         //         }
     @RequestMapping (value = "/cart", method = RequestMethod.GET)
-    public List<CartItem> viewCart(@RequestBody ShoppingCart shoppingCart){
+    public List<CartItemDetail> viewCart(@RequestBody ShoppingCart shoppingCart){
         return cartDao.viewShoppingCart(shoppingCart.getCartId());
     }
 
 
     //empty existing cart
+        /*Example:
+            {
 
+            }
+         */
+    @RequestMapping(value = "/cart/new", method = RequestMethod.DELETE)
+    public List<CartItemDetail> clearCart(@RequestBody ShoppingCart cart){
+        //TODO Complete clear cart methods under JdbcCartDao. Modify to accept a Shopping Cart object.
+        return null;
+    }
 
 
 

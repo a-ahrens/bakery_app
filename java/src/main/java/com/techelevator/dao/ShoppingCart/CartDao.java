@@ -1,8 +1,8 @@
 package com.techelevator.dao.ShoppingCart;
 
-import com.techelevator.model.cart.CartItem;
+import com.techelevator.model.cart.CartItemDTO;
+import com.techelevator.model.cart.CartItemDetail;
 import com.techelevator.model.cart.ShoppingCart;
-import com.techelevator.model.products.Product;
 
 import java.util.List;
 
@@ -15,16 +15,19 @@ public interface CartDao {
     ShoppingCart guestLoginShoppingCart(int cartId, int customerId);
 
     //add item to cart
-    boolean addItemToCart(int cartId, Product product, int quantity);
+    boolean addItemToCart(CartItemDTO cartItem);
 
     //remove item from cart
-    boolean removeItemFromCart(int cartId, Product product);
+    boolean removeItemFromCart(CartItemDTO cartItem);
+
+    //Adjust quantity of cart item
+    boolean updateItemQuantity(CartItemDTO cartItem);
 
     //get list of cart items
-    List<CartItem> viewShoppingCart(int cartId);
+    List<CartItemDetail> viewShoppingCart(int cartId);
 
     //empty existing cart
-    List<CartItem> emptyShoppingCart(int cartId);
+    List<CartItemDetail> emptyShoppingCart(int cartId);
 
 
 

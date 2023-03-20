@@ -1,13 +1,12 @@
 package com.techelevator.dao.ShoppingCart;
 
-import com.techelevator.model.cart.CartItem;
+import com.techelevator.model.cart.CartItemDTO;
+import com.techelevator.model.cart.CartItemDetail;
 import com.techelevator.model.cart.ShoppingCart;
-import com.techelevator.model.products.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import javax.sql.RowSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,51 +30,63 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
-    public boolean addItemToCart(int cartId, Product product, int quantity) {
-        String sql = "INSERT INTO cart_items (cart_id, product_id, quantity, price) " +
-                     "VALUES (?, ?, ?, ?);";
-        int rows = jdbcTemplate.update(sql, cartId, product.getId(), quantity, product.getPrice() * quantity);
+    public boolean addItemToCart(CartItemDTO cartItem) {
+        String sql = "INSERT INTO cart_items (cart_id, product_id, quantity) " +
+                     "VALUES (?, ?, ?);";
+        int rows = jdbcTemplate.update(sql, cartItem.getCartId(), cartItem.getProductId(), cartItem.getQuantity());
 
         return rows == 1;
     }
 
     @Override
-    public boolean removeItemFromCart(int cartId, Product product) {
+    public boolean removeItemFromCart(CartItemDTO cartItem) {
         String sql = "DELETE FROM cart_items WHERE cart_id = ? AND product_id = ?;";
 
-        int rows = jdbcTemplate.update(sql, cartId, product.getId());
+        int rows = jdbcTemplate.update(sql, cartItem.getCartId(), cartItem.getProductId());
 
         return rows == 1;
     }
 
     @Override
-    public List<CartItem> viewShoppingCart(int cartId) {
-        List<CartItem> cartItems = new ArrayList<>();
+    public boolean updateItemQuantity(CartItemDTO cartItem) {
+        String sql = "UPDATE cart_items SET cart_id = ?, product_id = ?, quantity = ?" +
+                     "WHERE cart_id = ? AND product_id = ?; ";
 
-        String sql = "SELECT * FROM cart_items " +
+        int rows = jdbcTemplate.update(sql, cartItem.getCartId(), cartItem.getProductId(), cartItem.getQuantity(), cartItem.getCartId(), cartItem.getProductId());
+
+        return rows == 1;
+    }
+
+    @Override
+    public List<CartItemDetail> viewShoppingCart(int cartId) {
+        List<CartItemDetail> cartItems = new ArrayList<>();
+
+        String sql = "SELECT products.product_id, products.product_name, products.price, cart_items.quantity, products.image_url " +
+                     "FROM cart_items " +
+                     "JOIN products ON products.product_id = cart_items.product_id " +
                      "WHERE cart_id = ?;";
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, cartId);
 
         while(rs.next()){
-            cartItems.add(mapRowToCartItem(rs));
+            cartItems.add(mapRowToCartItemDetail(rs));
         }
 
         return cartItems;
     }
 
     @Override
-    public List<CartItem> emptyShoppingCart(int cartId) {
+    public List<CartItemDetail> emptyShoppingCart(int cartId) {
         return null;
     }
 
-    private CartItem mapRowToCartItem(SqlRowSet rs){
-        CartItem cartItem = new CartItem();
+    private CartItemDetail mapRowToCartItemDetail(SqlRowSet rs){
+        CartItemDetail cartItem = new CartItemDetail();
 
-        cartItem.setLineItem(rs.getInt("line_item"));
-        cartItem.setCartId(rs.getInt("cart_id"));
         cartItem.setProductId(rs.getInt("product_id"));
-        cartItem.setQuantity(rs.getInt("quantity"));
+        cartItem.setProductName(rs.getString("product_name"));
         cartItem.setPrice(rs.getDouble("price"));
+        cartItem.setQuantity(rs.getInt("quantity"));
+        cartItem.setImageURL(rs.getString("image_url"));
 
         return cartItem;
     }
