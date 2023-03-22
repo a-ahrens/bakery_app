@@ -82,9 +82,11 @@ public class CartController {
             }
          */
     @RequestMapping(value = "/cart/new", method = RequestMethod.DELETE)
-    public List<CartItemDetail> clearCart(@RequestBody ShoppingCart cart){
+    public List<CartItemDetail> emptyCart(@RequestBody ShoppingCart cart){
         //TODO Complete clear cart methods under JdbcCartDao. Modify to accept a Shopping Cart object.
-        return null;
+
+
+        return cartDao.emptyShoppingCart(cart);
     }
 
 

@@ -27,7 +27,7 @@ public interface CartDao {
     List<CartItemDetail> viewShoppingCart(int cartId);
 
     //empty existing cart
-    List<CartItemDetail> emptyShoppingCart(int cartId);
+    List<CartItemDetail> emptyShoppingCart(ShoppingCart cart);
 
 
 

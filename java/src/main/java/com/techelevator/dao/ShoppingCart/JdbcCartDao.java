@@ -75,8 +75,13 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
-    public List<CartItemDetail> emptyShoppingCart(int cartId) {
-        return null;
+    public List<CartItemDetail> emptyShoppingCart(ShoppingCart cart) {
+        String sql = "DELETE FROM cart_items " +
+                "WHERE cart_id = ?";
+
+        int rows = jdbcTemplate.update(sql, cart.getCartId());
+
+        return viewShoppingCart(cart.getCartId());
     }
 
     private CartItemDetail mapRowToCartItemDetail(SqlRowSet rs){
