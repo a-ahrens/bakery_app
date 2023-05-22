@@ -45,10 +45,17 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
-    public boolean addItemToCart(CartItemDTO cartItem) {
+    public boolean addItemToCart(CartItemDTO newItem) {
+        CartItemDTO itemCheck = getCartItem(newItem.getCartId(), newItem.getProductId());
+
+        if(itemCheck != null) {
+            newItem.setQuantity( newItem.getQuantity() + itemCheck.getQuantity() );
+            return updateItemQuantity(newItem);
+        }
+
         String sql = "INSERT INTO cart_items (cart_id, product_id, quantity) " +
                      "VALUES (?, ?, ?);";
-        int rows = jdbcTemplate.update(sql, cartItem.getCartId(), cartItem.getProductId(), cartItem.getQuantity());
+        int rows = jdbcTemplate.update(sql, newItem.getCartId(), newItem.getProductId(), newItem.getQuantity());
 
         return rows == 1;
     }
