@@ -30,6 +30,21 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
+    public CartItemDTO getCartItem(int cartId, int productId){
+        String sql = "SELECT cart_id, product_id, quantity " +
+                     "FROM cart_items " +
+                     "WHERE cart_id = ? AND product_id = ?;";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, cartId, productId);
+
+        if(rs.next()){
+            return mapRowToCartItemDTO(rs);
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean addItemToCart(CartItemDTO cartItem) {
         String sql = "INSERT INTO cart_items (cart_id, product_id, quantity) " +
                      "VALUES (?, ?, ?);";
@@ -48,11 +63,17 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
-    public boolean updateItemQuantity(CartItemDTO cartItem) {
+    public boolean updateItemQuantity(CartItemDTO updateItem) {
+        CartItemDTO itemCheck = getCartItem(updateItem.getCartId(), updateItem.getProductId());
+
+        if(itemCheck.getQuantity() == updateItem.getQuantity()){
+            return removeItemFromCart(updateItem);
+        }
+
         String sql = "UPDATE cart_items SET cart_id = ?, product_id = ?, quantity = ?" +
                      "WHERE cart_id = ? AND product_id = ?; ";
 
-        int rows = jdbcTemplate.update(sql, cartItem.getCartId(), cartItem.getProductId(), cartItem.getQuantity(), cartItem.getCartId(), cartItem.getProductId());
+        int rows = jdbcTemplate.update(sql, updateItem.getCartId(), updateItem.getProductId(), updateItem.getQuantity(), updateItem.getCartId(), updateItem.getProductId());
 
         return rows == 1;
     }
@@ -92,6 +113,15 @@ public class JdbcCartDao implements CartDao{
         cartItem.setPrice(rs.getDouble("price"));
         cartItem.setQuantity(rs.getInt("quantity"));
         cartItem.setImageURL(rs.getString("image_url"));
+
+        return cartItem;
+    }
+
+    private CartItemDTO mapRowToCartItemDTO(SqlRowSet rs){
+        CartItemDTO cartItem = new CartItemDTO();
+        cartItem.setCartId(rs.getInt("cart_id"));
+        cartItem.setProductId(rs.getInt("product_id"));
+        cartItem.setQuantity(rs.getInt("quantity"));
 
         return cartItem;
     }

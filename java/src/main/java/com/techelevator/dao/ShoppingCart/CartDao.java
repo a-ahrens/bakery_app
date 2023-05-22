@@ -14,6 +14,9 @@ public interface CartDao {
     //update active cart from guest to user account when they log in
     ShoppingCart guestLoginShoppingCart(int cartId, int customerId);
 
+    //get item from cart
+    CartItemDTO getCartItem(int cartId, int productId);
+
     //add item to cart
     boolean addItemToCart(CartItemDTO cartItem);
 
