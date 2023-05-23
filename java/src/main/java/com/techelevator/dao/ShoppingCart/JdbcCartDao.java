@@ -21,10 +21,12 @@ public class JdbcCartDao implements CartDao{
 
     @Override
     public ShoppingCart createGuestCart(String uuid) {
-        String sql = "INSERT INTO shopping_cart (session_id)" +
-                     "VALUES (?) ";
+        String sql = "INSERT INTO shopping_cart (session_id) " +
+                     "VALUES (?) RETURNING cart_id;";
 
         Integer cartId = jdbcTemplate.queryForObject(sql, Integer.class, uuid);
+
+        System.out.println();
 
         return getCartByCartId(cartId);
     }
