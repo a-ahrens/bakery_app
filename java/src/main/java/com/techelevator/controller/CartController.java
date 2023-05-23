@@ -18,9 +18,17 @@ public class CartController {
         this.cartDao = cartDao;
     }
 
-    //check if cart exists, return existing cart. If not then create new cart
+    //create new shopping cart for guest
+    @RequestMapping (value = "/cart/guest", method = RequestMethod.POST)
+    public ShoppingCart createNewGuestCart(@RequestBody ShoppingCart cart){
+        return cartDao.createGuestCart(cart.getSessionId());
+    }
 
-    //update cart from guest to user account
+    //get cart info by cart id
+    @RequestMapping (value = "/cart", method = RequestMethod.GET)
+    public ShoppingCart getCartByCartId(@RequestBody ShoppingCart cart){
+        return cartDao.getCartByCartId(cart.getCartId());
+    }
 
 
     //add item to cart
@@ -31,7 +39,7 @@ public class CartController {
                 "quantity" : 2
             }
          */
-    @RequestMapping (value = "/cart", method = RequestMethod.POST)
+    @RequestMapping (value = "/cart/items", method = RequestMethod.POST)
     public boolean addItemToCart(@RequestBody CartItemDTO cartItem){
         return cartDao.addItemToCart(cartItem);
     }
@@ -41,10 +49,9 @@ public class CartController {
             {
                 "cartId" : 3,
                 "productId" : 3,
-                "quantity" : 2
             }
         */
-    @RequestMapping (value = "/cart", method = RequestMethod.DELETE)
+    @RequestMapping (value = "/cart/items", method = RequestMethod.DELETE)
     public boolean removeItemFromCart(@RequestBody CartItemDTO cartItem){
         return cartDao.removeItemFromCart(cartItem);
     }
@@ -57,7 +64,7 @@ public class CartController {
                 "quantity" : 2
             }
          */
-    @RequestMapping (value = "/cart", method = RequestMethod.PUT)
+    @RequestMapping (value = "/cart/items", method = RequestMethod.PUT)
     public boolean updateItemQuantityInCart(@RequestBody CartItemDTO cartItem){
         return cartDao.updateItemQuantity(cartItem);
     }
@@ -69,7 +76,7 @@ public class CartController {
         //             "customerId" : 3,
         //             "createdDate" : null
         //         }
-    @RequestMapping (value = "/cart", method = RequestMethod.GET)
+    @RequestMapping (value = "/cart/items", method = RequestMethod.GET)
     public List<CartItemDetail> viewCart(@RequestBody ShoppingCart shoppingCart){
         return cartDao.viewShoppingCart(shoppingCart.getCartId());
     }
@@ -78,10 +85,10 @@ public class CartController {
     //empty existing cart
         /*Example:
             {
-
+                "cartId" : 3
             }
          */
-    @RequestMapping(value = "/cart/new", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/cart/empty", method = RequestMethod.DELETE)
     public List<CartItemDetail> emptyCart(@RequestBody ShoppingCart cart){
         //TODO Complete clear cart methods under JdbcCartDao. Modify to accept a Shopping Cart object.
 

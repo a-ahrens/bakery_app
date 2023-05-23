@@ -22,8 +22,9 @@ CREATE TABLE customer(
 
 CREATE TABLE shopping_cart(
 	cart_id SERIAL,
-	customer_id INT NOT NULL,
+	customer_id int,
 	created_on DATE NOT NULL DEFAULT CURRENT_DATE,
+	session_id VARCHAR(50),
 	CONSTRAINT PK_shopping_cart PRIMARY KEY (cart_id),
 	CONSTRAINT FK_customer_id FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );

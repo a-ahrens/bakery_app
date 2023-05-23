@@ -7,3 +7,19 @@
     <router-view />
   </div>
 </template>
+
+<script>
+import { v4 as uuidv4 } from 'uuid';
+
+export default {
+  created() {
+    const deviceId = localStorage.getItem('deviceId');
+    if (!deviceId) {
+      const newDeviceId = uuidv4();
+      localStorage.setItem('deviceId', newDeviceId);
+    }
+
+    console.log('Device ID: ', deviceId);
+  }
+}
+</script>

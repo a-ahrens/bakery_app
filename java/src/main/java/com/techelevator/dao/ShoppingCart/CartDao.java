@@ -8,11 +8,17 @@ import java.util.List;
 
 public interface CartDao {
 
-    //check if cart exists, return existing cart. If not then create new cart
-    ShoppingCart loginShoppingCart(int customerId);
+    //create shopping cart for guest user
+    ShoppingCart createGuestCart(String uuid);
 
-    //update active cart from guest to user account when they log in
-    ShoppingCart guestLoginShoppingCart(int cartId, int customerId);
+    //convert guest cart to registered cart
+    ShoppingCart convertToRegisteredCart(int cartId, int customerId);
+
+    //get cart by cart id
+    ShoppingCart getCartByCartId(int cartId);
+
+    //get shopping cart for registered user
+    ShoppingCart getRegisteredCart(int customerId);
 
     //get item from cart
     CartItemDTO getCartItem(int cartId, int productId);

@@ -29,3 +29,6 @@ JOIN products ON products.product_id = cart_items.product_id;
 -- ALTER TABLE cart_items
 -- ADD CONSTRAINT quantity_check
 -- CHECK (quantity > 0);
+
+-- ALTER TABLE shopping_cart
+-- ADD COLUMN session_id varchar(50);

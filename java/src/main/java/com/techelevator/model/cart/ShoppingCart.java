@@ -9,6 +9,7 @@ public class ShoppingCart {
     private int cartId;
     private int customerId;
     private LocalDateTime createdDate;
+    private String sessionId;
 
     public int getCartId() {
         return cartId;
@@ -32,5 +33,13 @@ public class ShoppingCart {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getSessionId(){
+        return sessionId;
+    }
+
+    public void setSessionId(String uuid) {
+        this.sessionId = uuid;
     }
 }

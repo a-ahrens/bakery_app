@@ -20,12 +20,38 @@ public class JdbcCartDao implements CartDao{
     }
 
     @Override
-    public ShoppingCart loginShoppingCart(int customerId) {
+    public ShoppingCart createGuestCart(String uuid) {
+        String sql = "INSERT INTO shopping_cart (session_id)" +
+                     "VALUES (?) ";
+
+        Integer cartId = jdbcTemplate.queryForObject(sql, Integer.class, uuid);
+
+        return getCartByCartId(cartId);
+    }
+
+    @Override
+    public ShoppingCart convertToRegisteredCart(int cartId, int customerId) {
         return null;
     }
 
     @Override
-    public ShoppingCart guestLoginShoppingCart(int cartId, int customerId) {
+    public ShoppingCart getCartByCartId(int cartId){
+        String sql = "SELECT cart_id, customer_id, created_on, session_id " +
+                     "FROM shopping_cart " +
+                     "WHERE cart_id = ?;";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, cartId);
+
+        if (rs.next()){
+            return mapRowToShoppingCart(rs);
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public ShoppingCart getRegisteredCart(int customerId) {
         return null;
     }
 
@@ -105,7 +131,7 @@ public class JdbcCartDao implements CartDao{
     @Override
     public List<CartItemDetail> emptyShoppingCart(ShoppingCart cart) {
         String sql = "DELETE FROM cart_items " +
-                "WHERE cart_id = ?";
+                     "WHERE cart_id = ?";
 
         int rows = jdbcTemplate.update(sql, cart.getCartId());
 
@@ -131,5 +157,16 @@ public class JdbcCartDao implements CartDao{
         cartItem.setQuantity(rs.getInt("quantity"));
 
         return cartItem;
+    }
+
+    private ShoppingCart mapRowToShoppingCart(SqlRowSet rs){
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        shoppingCart.setCartId(rs.getInt("cart_id"));
+        shoppingCart.setCustomerId(rs.getInt("customer_id"));
+        shoppingCart.setCreatedDate((rs.getTimestamp("created_on")).toLocalDateTime());
+        shoppingCart.setSessionId(rs.getString("session_id"));
+
+        return shoppingCart;
     }
 }
